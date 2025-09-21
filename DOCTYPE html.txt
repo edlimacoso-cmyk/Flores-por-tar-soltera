@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>R con fuegos artificiales</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 12rem;
+      color: red;
+      text-shadow: 0 0 20px yellow, 0 0 40px orange, 0 0 80px red;
+      position: absolute;
+      z-index: 2;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); color: red; }
+      50% { transform: scale(1.2); color: yellow; }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>R</h1>
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2;
+        this.color = color;
+        this.speed = Math.random() * 5 + 2;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.vx = Math.cos(this.angle) * this.speed;
+        this.vy = Math.sin(this.angle) * this.speed;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.02 + 0.01;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function createFirework() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height * 0.5;
+      const colors = ["red", "yellow", "orange", "white", "blue", "purple"];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      for (let i = 0; i < 50; i++) {
+        particles.push(new Particle(x, y, color));
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    setInterval(createFirework, 1000);
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
+✨ Con este código:
+
+Sale una “R” gigante y brillante al centro.
+
+Se ven fuegos artificiales animados detrás de la letra.
+
+El fondo es negro estilo “noche”.
+
+¿Quieres que en vez de una sola R pueda poner varias letras (ejemplo: tu amiga se llama Rosa y que salga “ROSA” con fuegos artificiales)?
+
+
+
+
+
+
+
+Dijiste:
+en la imagen solo me sale el codigo de la primera foto que te envie eso no
+
+
+ChatGPT dijo:
+Ahh ya entendí 👌
+Lo que tú quieres es que no se vea el código estilo CSS decorativo (como en tu primera imagen que me pasaste), sino que se vea directamente la letra “R” gigante con los fuegos artificiales animados en el fondo.
+
+El problema es que seguramente en tu archivo copiaste mi código pero lo guardaste como texto dentro de una etiqueta <pre> o algo similar.
+Si haces lo que te paso ahora, sí o sí debería salir como animación:
+
+✅ Código corregido
+Guarda esto como index.html:
+
+html
+Copiar código
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Letra R con fuegos artificiales</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 12rem;
+      color: red;
+      text-shadow: 0 0 20px yellow, 0 0 40px orange, 0 0 80px red;
+      position: absolute;
+      z-index: 2;
+      animation: pulse 2s infinite;
+      font-family: Arial, sans-serif;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); color: red; }
+      50% { transform: scale(1.2); color: yellow; }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- La letra R en el centro -->
+  <h1>R</h1>
+
+  <!-- Lienzo para fuegos artificiales -->
+  <canvas id="fireworks"></canvas>
+
+  <script>
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.radius = 2;
+        this.color = color;
+        this.speed = Math.random() * 5 + 2;
+        this.angle = Math.random() * 2 * Math.PI;
+        this.vx = Math.cos(this.angle) * this.speed;
+        this.vy = Math.sin(this.angle) * this.speed;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.02 + 0.01;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+
+      draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    function createFirework() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height * 0.5;
+      const colors = ["red", "yellow", "orange", "white", "blue", "purple"];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+
+      for (let i = 0; i < 50; i++) {
+        particles.push(new Particle(x, y, color));
+      }
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw();
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    setInterval(createFirework, 1000);
+    animate();
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
